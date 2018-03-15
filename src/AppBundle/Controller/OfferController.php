@@ -12,6 +12,8 @@
     use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
     use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
     use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+    use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+    use Symfony\Component\ExpressionLanguage\Expression;
 
     class OfferController extends Controller
 
@@ -61,6 +63,7 @@
     public function editAction( $id, Request $request){
 
         $offer = $this->getDoctrine()->getRepository('AppBundle:Offer')->find($id);
+        $this->checkIfAllowed($offer);
         $offer->setDescription($offer->getDescription());
         $offer->setQuantity($offer->getQuantity());
         $offer->setPrice($offer->getPrice());
@@ -93,17 +96,19 @@
     }
 
 
-
+    public function checkIfAllowed($offer){
+      $user= $this->getUser();
+      if($offer == NULL){
+       throw $this->createNotFoundException('The offer does not exist');
+      }
+      if($offer->getFkUserId() != $user->getId()){
+        throw $this->createAccessDeniedException(new Expression('You arenot Offer Owner'));
+      }
+    }
     public function deleteAction($id){
-        $user= $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
         $offer = $em->getRepository('AppBundle:Offer')->find($id);
-        if($offer == NULL){
-         throw $this->createNotFoundException('The offer does not exist');
-        }
-        if($offer->getFkUserId() != $user->getId()){
-          $this->denyAccessUnlessGranted(new Expression('You arenot Offer Owner'));
-        }
+        $this->checkIfAllowed($offer);
         $em->remove($offer);
         $em->flush();
         $this->addFlash(
