@@ -12,3 +12,21 @@ register:
 home:
     path:     /
     defaults: { _controller: AppBundle:Security:login }
+
+
+
+offer_list:
+    path:     /offer/list
+    defaults: { _controller: AppBundle:Offer:list }
+offer_show:
+    path:     /offer/show/{id}
+    defaults: { _controller: AppBundle:Offer:show }
+offer_edit:
+    path:     /offer/edit/{id}
+    defaults: { _controller: AppBundle:Offer:edit }
+offer_create:
+    path:     /offer/create/{postId}
+    defaults: { _controller: AppBundle:Offer:create }
+offer_delete:
+    path:     /offer/delete/{id}
+    defaults: { _controller: AppBundle:Offer:delete }

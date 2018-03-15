@@ -33,4 +33,6 @@ security:
     access_control:
       - { path: ^/login, allow_if: "is_authenticated() == false" }
       - { path: ^/register,  allow_if: "is_authenticated() == false"}
-      - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: ^/offer/create, roles: ROLE_USER }
+      - { path: ^/offer/edit/, roles: ROLE_USER }
+      - { path: ^/offer/delete/, roles: ROLE_USER}

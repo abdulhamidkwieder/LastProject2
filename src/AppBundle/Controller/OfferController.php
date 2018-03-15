@@ -17,48 +17,35 @@
 
 {
 
-    /**
-     * @Route("/", name="offer_list")
-     */
+
     public function listAction(){
-        return $this->render('default/index.html.twig');
+      $offers = $this->getDoctrine()->getRepository('AppBundle:Offer')->findAll();
+      return $this->render('offer/list.html.twig', array('offers'=>$offers));
     }
 
-    /**
-    * @Route("/offer", name="offer_show")
-    */
-    public function showOfferAction()
+
+    public function showAction()
     {
-        $offers = $this->getDoctrine()->getRepository('AppBundle:Offer')->findAll();
-        return $this->render('offer/index.html.twig', array('offers'=>$offers));
+      $offer = $this->getDoctrine()->getRepository('AppBundle:Offer')->find($id);
+      return $this->render('offer/details.html.twig', array('offer' => $offer));
     }
 
-    /**
-    * @Route("/offer/create", name="offer_create")
-    */
-    public function createOfferAction(Request $request){
+
+    public function createAction($postId, Request $request){
+      $user= $this->getUser();
         $offer = new Offer;
         $form = $this->createFormBuilder($offer)
             ->add('description', TextareaType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
             ->add('quantity', IntegerType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
             ->add('price', IntegerType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
             ->add('save', SubmitType::class, array('label'=> 'Create Offer', 'attr' => array('class'=> 'btn btn-danger', 'style'=>'margin-bottom:15px')))
-            ->getForm(); 
+            ->getForm();
 
         $form->handleRequest($request);
             if($form->isSubmitted() && $form->isValid()){
-                //fetching data
-                $description = $form['description']->getData();
-                $quantity = $form['quantity']->getData();
-                $price = $form['price']->getData();
-                $fkUserId = $form['fk_user_id']->getData();
-                $fkPostId = $form['fk_post_id']->getData();
 
-                $offer->setDescription($description);
-                $offer->setQuantity($quantity);
-                $offer->setPrice($price);
-                $offer->setFkUserId($fkUserId);
-                $offer->setFkPostId($fkPostId);
+              $offer->setFkUserId($user->getId());
+              $offer->setFkPostId((int)$postId);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($offer);
@@ -68,12 +55,10 @@
         }
         return $this->render('offer/create.html.twig', array('form' => $form->createView()));
     }
-    
-    
-    /**
-     * @Route("/offer/edit/{id}", name="Offer_edit")
-     */
-    public function editOfferAction( $id, Request $request){
+
+
+
+    public function editAction( $id, Request $request){
 
         $offer = $this->getDoctrine()->getRepository('AppBundle:Offer')->find($id);
         $offer->setDescription($offer->getDescription());
@@ -85,7 +70,7 @@
             ->add('quantity', IntegerType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
             ->add('price', IntegerType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
             ->add('save', SubmitType::class, array('label'=> 'Save', 'attr' => array('class'=> 'btn-danger btn', 'style'=>'margin-bottom:15px')))
-            ->getForm(); 
+            ->getForm();
 
         $form->handleRequest($request);
             if($form->isSubmitted() && $form->isValid()){
@@ -106,30 +91,28 @@
             }
         return $this->render('offer/edit.html.twig', array('offer' => $offer, 'form' => $form->createView()));
     }
-    
-    /**
-     * @Route("/offer/details/{id}", name="offer_details")
-     */
-    public function detailsOfferAction($id){
-        $offer = $this->getDoctrine()->getRepository('AppBundle:Offer')->find($id);
-        return $this->render('offer/details.html.twig', array('offer' => $offer));
-    }
 
-    /**
-     * @Route("/offer/delete/{id}", name="offer_delete")
-     */
+
+
     public function deleteAction($id){
+        $user= $this->get('security.token_storage')->getToken()->getUser();
         $em = $this->getDoctrine()->getManager();
         $offer = $em->getRepository('AppBundle:Offer')->find($id);
+        if($offer == NULL){
+         throw $this->createNotFoundException('The offer does not exist');
+        }
+        if($offer->getFkUserId() != $user->getId()){
+          $this->denyAccessUnlessGranted(new Expression('You arenot Offer Owner'));
+        }
         $em->remove($offer);
-         $em->flush();
-    $this->addFlash(
+        $em->flush();
+        $this->addFlash(
             'notice',
-        'Offer Removed'
+            'Offer Removed'
         );
     return $this->redirectToRoute('offer_list');
     }
-    
+
     // /**
     //  * @Route("/search", name="post_search")
     //  * @Method("GET")

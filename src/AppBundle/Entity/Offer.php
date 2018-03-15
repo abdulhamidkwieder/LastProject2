@@ -164,8 +164,6 @@ class Offer
     public function setFkUserId($fkUserId)
     {
         $this->fkUserId = $fkUserId;
-
-        return $this;
     }
 
     /**
