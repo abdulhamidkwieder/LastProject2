@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="container">
+<a href="/comment/create">Add a comment</a>
+<h1>Sublvl 0</h1>
+    {% for comment in comments %}
+    	{% if comment.sublevel==0 %}
+        	{{comment.id}}<br>
+        	{{comment.repliedcommentid}}<br>
+        	{{comment.content}}<br>
+        	{{comment.sublevel}}<br>
+        	{{comment.fkpostid}}<br>
+        	{{comment.date|date('F j, Y, g:i a')}}<br>
+        	<a href="/comment/createsubm">replay</a>
+        	<hr>
+    	{% endif %}
+  	{% endfor %}
+<div style="margin-left:75px;">
+<h1>Sublvl 1</h1>
+  	{% for comment in comments %}
+    	{% if comment.sublevel==1 %}
+        	{{comment.id}}<br>
+        	{{comment.repliedcommentid}}<br>
+        	{{comment.content}}<br>
+        	{{comment.sublevel}}<br>
+        	{{comment.fkpostid}}<br>
+        	{{comment.date|date('F j, Y, g:i a')}}<br>
+        	<a href="/comment/createsub">replay</a>
+    	{% endif %}
+  	{% endfor %}
+</div>
+<div style="margin-left:175px;">
+<h1>Sublvl 2</h1>
+  	{% for comment in comments %}
+    	{% if comment.sublevel==2 %}
+        	{{comment.id}}<br>
+        	{{comment.repliedcommentid}}<br>
+        	{{comment.content}}<br>
+        	{{comment.sublevel}}<br>
+        	{{comment.fkpostid}}<br>
+        	{{comment.date|date('F j, Y, g:i a')}}<br>
+        	<a href="/comment/createsub">replay</a>
+    	{% endif %}
+  	{% endfor %}  
+  </div>
+</div>
+{% endblock %}

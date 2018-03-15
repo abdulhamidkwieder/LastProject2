@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<a href="/post/create">Create post</a>
+<div class="container">
+    {% for post in posts %}
+    <a href="/post/details/{{post.id}}">
+        {{post.id}}<br>
+        {{post.title}}<br>
+        {{post.description}}<br>
+        {{post.status}}<br>
+        </a>
+        <hr>
+    {% endfor %}
+</div>
+{% endblock %}

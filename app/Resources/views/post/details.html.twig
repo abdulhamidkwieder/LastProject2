@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="container">
+        {{post.id}}<br>
+        {{post.title}}<br>
+        {{post.description}}<br>
+        {{post.quantity}}<br>
+        {{post.minprice}}<br>
+        {{post.maxprice}}<br>
+        {{post.creationdate|date('F j, Y, g:i a')}}<br>
+        {{post.openingdate|date('F j, Y')}}<br>
+        {{post.closingdate|date('F j, Y')}}<br>
+        {{post.resultdate|date('F j, Y')}}<br>
+        {{post.status}}<br>
+        <a href="/post/edit/{{post.id}}">Edit post</a><br>
+        <a href="/post/delete/{{post.id}}">Delete post</a><br>
+</div>
+{% endblock %}
