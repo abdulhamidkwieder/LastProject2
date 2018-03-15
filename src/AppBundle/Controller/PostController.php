@@ -30,7 +30,7 @@
 
 {
     /**
-    * @Route("/post", name="post_list")
+    * @Route("/posts", name="post_list")
     */
     public function postAction()
     {
@@ -46,16 +46,16 @@
     public function createAction(Request $request){
         $post = new Post;
         $form = $this->createFormBuilder($post)
-        ->add('title', TextType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-botton:15px')))
-        ->add('description', TextareaType::class, array('attr' => array('style'=>'margin-bottom:15px')))
-        ->add('quantity', IntegerType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-botton:15px')))
+        ->add('title', TextType::class, array('attr' => array('class'=> 'form-control mb-2', 'style'=>'margin-botton:15px')))
+        ->add('description', TextareaType::class, array('attr' => array('class' => 'form-control', 'style'=>'margin-bottom:15px')))
+        ->add('quantity', IntegerType::class, array('attr' => array('class'=> 'form-control mb-2', 'style'=>'margin-botton:15px')))
         ->add('minPrice', IntegerType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
         ->add('maxPrice', IntegerType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
         ->add('openingDate', DateType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
         ->add('closingDate', DateType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
         ->add('resultDate', DateType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
-        ->add('fkPostTypeId', ChoiceType::class, array('choices'=>array('Bidding'=>'1', 'Auction '=>'2'),'attr' => array('class'=> 'form-control', 'style'=>'margin-botton:15px')))
-        ->add('save', SubmitType::class, array('label'=> 'Create Post', 'attr' => array('class'=> 'btn-primary', 'style'=>'margin-botton:15px')))
+        ->add('fkPostTypeId', ChoiceType::class, array('label' => 'Post type', 'choices'=>array('Bidding'=>'1', 'Auction '=>'2'),'attr' => array('class'=> 'form-control', 'style'=>'margin-botton:15px')))
+        ->add('save', SubmitType::class, array('label'=> 'Create Post', 'attr' => array('class'=> 'btn btn-danger mt-3', 'style'=>'margin-botton:15px')))
         ->getForm();
 
         $form->handleRequest($request);
@@ -114,18 +114,16 @@
             $PostFile->setFkPostTypeId($PostFile->getFkPostTypeId());
             
         $form = $this->createFormBuilder($PostFile)
-        ->add('title', TextType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-botton:15px')))
-        ->add('description', TextareaType::class, array('attr' => array('style'=>'margin-bottom:15px')))
-        ->add('quantity', IntegerType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-botton:15px')))
+        ->add('title', TextType::class, array('attr' => array('class'=> 'form-control mb-3', 'style'=>'margin-botton:15px')))
+        ->add('description', TextareaType::class, array('attr' => array('class' => 'form-control', 'style'=>'min-height: 200px; margin-bottom:15px')))
+        ->add('quantity', IntegerType::class, array('attr' => array('class'=> 'form-control mb-3', 'style'=>'margin-botton:15px')))
         ->add('minPrice', IntegerType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
         ->add('maxPrice', IntegerType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
-        ->add('creation_date', DateTimeType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
         ->add('openingDate', DateType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
         ->add('closingDate', DateType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
         ->add('resultDate', DateType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
-        ->add('status', IntegerType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
-        ->add('fkPostTypeId', ChoiceType::class, array('choices'=>array('Bidding'=>'1', 'Auction '=>'2'),'attr' => array('class'=> 'form-control', 'style'=>'margin-botton:15px')))
-        ->add('save', SubmitType::class, array('label'=> 'Update Post', 'attr' => array('class'=> 'btn-primary', 'style'=>'margin-botton:15px')))
+        ->add('fkPostTypeId', ChoiceType::class, array('label' => 'Post type', 'choices' => array('Bidding' => '1', 'Auction ' => '2'), 'attr' => array('class' => 'form-control', 'style' => 'margin-botton:15px')))
+        ->add('save', SubmitType::class, array('label' => 'Create Post', 'attr' => array('class' => 'btn btn-danger mt-3', 'style' => 'margin-botton:15px')))
         ->getForm();
 
         $form->handleRequest($request);

@@ -1,15 +1,23 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-<a href="/post/create">Create post</a>
-<div class="container">
+<div class="container-fluid py-3 bg-dark"> 
+    <h2 class="page-header mb-5 text-center text-white">Posts</h2>
     {% for post in posts %}
-    <a href="/post/details/{{post.id}}">
-        {{post.id}}<br>
-        {{post.title}}<br>
-        {{post.description}}<br>
-        {{post.status}}<br>
-        </a>
-        <hr>
+        <div class=" mx-auto col-sm-12 col-md-8 bg-white rounded p-3 my-3">
+        <a class="font-weight-bold" href="/post/details/{{ post.id }}">{{ post.title }}</a>
+        <hr class="my-1">
+        <p class="mb-0">
+            {{ post.description }} 
+            <a class="font-weight-bold text-danger" href="/post/details/{{ post.id }}">See details</a>
+        </p>
+        <hr class="my-1">
+        <p class="m-0 small">
+            <a href="/post/details/{{ post.id }}">
+                {{ post.creationDate|date("m-d-Y") }}
+            </a>
+        </p>
+        </div>  
     {% endfor %}
+
 </div>
 {% endblock %}

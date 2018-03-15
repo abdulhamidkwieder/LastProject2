@@ -1,9 +1,10 @@
 {% extends 'base.html.twig' %}
+{% block header_navigation_links %}{% endblock %}
 {% block body %}
-
-<div class="container py-5 col-xs-12 col-sm-10 col-md-6 col-lg-4">
-<h2 class="page-header">Add Post</h2>
-<hr>
+<div class="container-fluid py-5 bg-dark"> 
+    <div class="container rounded bg-white register-container py-4 col-xs-12 col-sm-10 col-md-6 col-lg-4">
+    <h2 class="page-header">Write a Post</h2>
+    <hr>
     {% for message in app.flashes('notice') %}
         <div class="p-2 text-success font-weight-bold">
             {{ message }}
@@ -13,5 +14,7 @@
     {{ form_start(form) }}
     {{ form_widget(form) }}
     {{ form_end(form) }}
+
+    </div>
 </div>
 {% endblock %}

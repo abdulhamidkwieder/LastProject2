@@ -38,9 +38,14 @@
         {% endblock %}
 
         {% if app.user %}
-            <a href="logout" class="nav-link">
-                 {{ 'Logout'|trans }} <i class="fas fa-sign-out-alt"></i>
-            </a>
+            <div class="nav-item dropdown dropdown-pull-right">
+                <button class="nav-link drop-btn dropdown-toggle" id="dropdown-btn" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false"><img src="{{ asset('img/users/cf.jpg') }}" class="rounded" width="35px"></button>
+                <div class="dropdown-menu dropdown-menu-right pull-right mb-2 bg-dark" aria-labelledby="dropdown-btn">
+                    <a href="/post/create" class="nav-link">Create post</a>
+                    <a href="logout" class="nav-link">{{ 'Logout'|trans }}</a>
+                </div>
+            </div>
         {% endif %}
 
         </div>

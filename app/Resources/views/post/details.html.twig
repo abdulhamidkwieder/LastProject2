@@ -1,18 +1,46 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-<div class="container">
-        {{post.id}}<br>
-        {{post.title}}<br>
-        {{post.description}}<br>
-        {{post.quantity}}<br>
-        {{post.minprice}}<br>
-        {{post.maxprice}}<br>
-        {{post.creationdate|date('F j, Y, g:i a')}}<br>
-        {{post.openingdate|date('F j, Y')}}<br>
-        {{post.closingdate|date('F j, Y')}}<br>
-        {{post.resultdate|date('F j, Y')}}<br>
-        {{post.status}}<br>
-        <a href="/post/edit/{{post.id}}">Edit post</a><br>
-        <a href="/post/delete/{{post.id}}">Delete post</a><br>
+<div class="container-fluid py-4 bg-dark"> 
+    <h2 class="page-header mb-5 text-center text-white">{{ post.title }}</h2>
+    <div class=" mx-auto col-sm-12 col-md-8 bg-white rounded p-3 my-3">
+        <h4 class="font-weight-bold">Description</h4>
+        <p class="mb-0">{{ post.description }}</p>
+         <hr class="my-1">  
+        <p class="mb-0">
+            <strong>Opening Date</strong>
+            {{ post.openingdate|date('F j, Y, g:i a') }}
+         </p>
+         <hr class="my-1">  
+        <p class="mb-0">
+            <strong>Closing Date</strong>
+            {{ post.closingdate|date('F j, Y, g:i a') }}
+         </p>
+         <hr class="my-1">  
+        <p class="mb-0">
+            <strong>Result Date</strong>
+            {{ post.resultdate|date('F j, Y, g:i a') }}
+         </p>
+        <hr class="my-1">  
+        <p class="mb-0">
+            <strong>Quantity</strong>
+            {{ post.quantity }}
+         </p>
+         <hr class="my-1">  
+        <p class="mb-0">
+            <strong>Minimum Price</strong>
+            {{ post.minprice }}
+         </p>
+         <hr class="my-1">  
+        <p class="mb-0">
+            <strong>Maximum Price</strong>
+            {{ post.maxprice }}
+         </p>
+         <hr class="mt-1 mb-2">  
+         <a href="/post/edit/{{ post.id }}" class="btn btn-danger">Edit</a>
+         <a href="/post/delete/{{ post.id }}" class="btn btn-danger">Delete</a>
+         <hr class="mt-2 mb-1">  
+        <p class="m-0 small">{{ post.creationDate|date("m-d-Y") }}</p>
+    </div>  
+
 </div>
 {% endblock %}
