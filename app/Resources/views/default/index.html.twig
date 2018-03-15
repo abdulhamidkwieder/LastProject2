@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <style>
+        .cover {background: url('../img/cover.jpg');}
+    </style>
+{% endblock %}
+
+{% block cover %}
+    {% embed "default/cover.html.twig" %}{% endembed %}
+{% endblock %}
+
+{% block body %}
+
+    {# Three columns  #}
+    <div class="px-sm-0 px-md-5 d-flex justify-content-center flex-wrap">
+        <div class="animated wow fadeInLeft col-sm-12 text-center col-md-6 col-lg-4 p-4">
+        <i class="w-100 text-danger text-center fa-2x mb-3 fas fa-credit-card"></i>
+        We have an entire team dedicated to protect you and every item you sell.
+        </div>
+        <div class="animated wow fadeInUp col-sm-12 text-center  col-md-6 col-lg-4 p-4">
+        <i class="w-100 text-danger text-center fa-2x mb-3 fas fa-tv"></i>
+        Whether it's building awareness of your business or a new product.
+        </div>
+        <div class="animated wow fadeInRight col-sm-12 text-center  col-md-6 col-lg-4 p-4">
+        <i class="w-100 text-danger text-center fa-2x mb-3 far fa-handshake"></i>
+        When your item sells, we make the payment process easy for you and the buyer.
+        </div>{# Three columns end  #}
+    </div>
+
+    <hr class=" w-100">
+
+    {# Register offer #}
+
+    <div class="my-3 d-flex w-100 register-fp container px-0 d-flex justify-content-center flex-wrap align-items-center">
+        <div class="col-sm-12 col-md-5 animated wow fadeInLeft mb-4">
+            <h3 class="text-danger font-weight-bold">RAPID SEARCH</h3>
+            <h5>Find you bidding, find your needs.</h5>
+            <a class="btn btn-danger" href="#">Register Now!</a>
+            
+        </div>
+        <div class="col-sm-12 col-md-5 animated wow fadeInRight">
+            <img class="my-2" src="{{ asset('img/fp-reg.png') }}" alt="Register">
+        </div>
+    </div> {# Register offer end #}
+
+    {# Deal #}
+    <div class="text-center mt-3 px-0 w-100 deal-fp bg-white py-5 d-flex justify-content-center flex-wrap align-items-center">
+        <div class="animated px-3 wow fadeInLeft">
+            <img class="my-2" src="{{ asset('img/deal.png') }}" alt="Register">
+        </div>
+        <div class="animated px-3 wow fadeInRight mb-4">
+            <h3 class="text-danger font-weight-bold">MAKE A DEAL</h3>
+            <h5>Get the best offers.</h5>
+            <a class="btn btn-danger" href="#">Browse</a>
+            
+        </div>
+
+    </div>{# Deal end #}
+
+    {# Contact #}
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2659.584727827908!2d16.35831225038552!3d48.19535217912609!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x476d07868cf3cfb5%3A0x3c6daa2cfecbc65c!2sKettenbr%C3%BCckengasse%2C+Wien!5e0!3m2!1sen!2sat!4v1521025399300" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+    <div class="social fa-2x text-center bg-dark py-3">
+        <a href="#"><i class="fab text-white fa-facebook"></i></a>
+        <a href="#"><i class="fab text-white fa-instagram"></i></a>
+        <a href="#"><i class="fab text-white fa-twitter"></i></a>
+        <a href="#"><i class="fab text-white fa-linkedin"></i></a>
+    </div>
+    {# Contact end #}
+
+{% endblock %}
+
+{% block javascripts %}
+
+<script>
+$('#confirm').on('show.bs.modal', function(e) {
+    $(this).find('#confirm-btn').attr({
+        'href': $(e.relatedTarget).data('href')
+    });
+     $(this).find('#modal-ename').html($(e.relatedTarget).data('name'));
+});
+</script>
+{% endblock %}

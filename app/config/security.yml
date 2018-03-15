@@ -1,0 +1,36 @@
+# To get started with security, check out the documentation:
+# https://symfony.com/doc/current/security.html
+security:
+
+    # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    providers:
+            user_provider:
+                  entity:
+                      class: AppBundle:User
+                      property: email
+    encoders:
+            AppBundle\Entity\User:
+                algorithm: bcrypt
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            switch_user: false
+            anonymous: ~
+            provider: user_provider
+            logout:
+                path:   /logout
+                target: /
+            form_login:
+                      login_path: login
+                      check_path: login
+                      csrf_token_generator: security.csrf.token_manager
+
+    access_control:
+      - { path: ^/login, allow_if: "is_authenticated() == false" }
+      - { path: ^/register,  allow_if: "is_authenticated() == false"}
+      - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }

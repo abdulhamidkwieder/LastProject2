@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300');
+
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(0, 131, 163);
+}
+
+a:hover {
+    color: rgb(0, 95, 119);
+    text-decoration: none;
+}
+
+.drop-btn {
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    outline: transparent !important;
+}
+
+.navbar input {
+  font-size: 120%;
+}
+
+.nav-link {
+    color: #fff;
+}
+
+.nav-link:hover {
+    color: rgb(192, 192, 192);
+}
+
+:root {
+  --jumbotron-padding-y: 3rem;
+}
+
+.col-border {
+    border: 1px dashed rgb(182, 182, 182);
+}
+
+.jumbotron {
+  padding-top: var(--jumbotron-padding-y);
+  padding-bottom: var(--jumbotron-padding-y);
+  margin-bottom: 0;
+  background-color: #fff;
+}
+@media (min-width: 768px) {
+  .jumbotron {
+    padding-top: calc(var(--jumbotron-padding-y) * 2);
+    padding-bottom: calc(var(--jumbotron-padding-y) * 2);
+  }
+}
+
+.jumbotron p:last-child {
+  margin-bottom: 0;
+}
+
+.jumbotron-heading {
+  font-weight: 300;
+}
+
+.jumbotron .container {
+  max-width: 40rem;
+}
+
+footer {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+footer p {
+  margin-bottom: .25rem;
+}
+
+.box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
+
+.cover {
+  background-size: cover;
+  border-radius: 0;
+  background-repeat: no-repeat;
+  position: relative;
+  height: 90vh;
+}
+
+@media screen and (max-width: 768px) {
+  .search-container {clear: both; width: 100%;};
+}
+
+.event-text {
+    border: 1px dashed rgb(182, 182, 182);
+}
