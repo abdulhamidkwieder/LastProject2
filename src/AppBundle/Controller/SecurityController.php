@@ -16,7 +16,7 @@
     $error = $authenticationUtils->getLastAuthenticationError();
     $lastUsername = $authenticationUtils->getLastUsername();
 
-      return $this->render('security/login.html.twig', array(
+      return $this->render('user/login.html.twig', array(
           'last_username' => $lastUsername,
           'error'         => $error,
     ));
@@ -49,11 +49,11 @@ public function registerAction(Request $request, UserPasswordEncoderInterface $p
         // maybe set a "flash" success message for the user
 
             $this->addFlash('notice', 'Successfully registered!');
-            return $this->redirect($this->generateUrl('login'));
+            return $this->redirect($this->generateUrl('register'));
     }
 
     return $this->render(
-        'security/register.html.twig',
+        'user/register.html.twig',
         array('form' => $form->createView())
     );
   }

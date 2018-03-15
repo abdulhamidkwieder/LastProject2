@@ -19,20 +19,26 @@
 
 {
 
-
+    /**
+     * @Route("/offers", name="offers")
+     */
     public function listAction(){
       $offers = $this->getDoctrine()->getRepository('AppBundle:Offer')->findAll();
       return $this->render('offer/list.html.twig', array('offers'=>$offers));
     }
 
-
-    public function showAction()
+    /**
+     * @Route("/offer/details/{id}", name="details_offer")
+     */
+    public function showAction($id)
     {
       $offer = $this->getDoctrine()->getRepository('AppBundle:Offer')->find($id);
       return $this->render('offer/details.html.twig', array('offer' => $offer));
     }
 
-
+    /**
+     * @Route("/offer/create", name="create_offer")
+     */
     public function createAction($postId, Request $request){
       $user= $this->getUser();
         $offer = new Offer;
@@ -59,7 +65,9 @@
     }
 
 
-
+    /**
+     * @Route("/offer/edit/{id}", name="edit_offer")
+     */
     public function editAction( $id, Request $request){
 
         $offer = $this->getDoctrine()->getRepository('AppBundle:Offer')->find($id);
@@ -118,31 +126,5 @@
     return $this->redirectToRoute('offer_list');
     }
 
-    // /**
-    //  * @Route("/search", name="post_search")
-    //  * @Method("GET")
-    //  *
-    //  * @return Response|JsonResponse
-    //  */
-    // public function searchAction(Request $request)
-    // {
-    //     if (!$request->isXmlHttpRequest()) {
-    //         return $this->render('offer/search.html.twig');
-    //     }
-
-    //     $query = $request->query->get('q', '');
-    //     $posts = $this->getDoctrine()->getRepository(Offer::class)->findBySearchQuery($query);
-
-    //     $results = [];
-    //     foreach ($offers as $offer) {
-    //         $results[] = [
-    //             'title' => htmlspecialchars($offer->getTitle()),
-    //             'url' => htmlspecialchars($offer->getUrl()),
-    //             'summary' => htmlspecialchars($offer->getSummary()),
-    //             'url' => $this->generateUrl('offer_post', ['slug' => $offer->getSlug()]),
-    //         ];
-    //     }
-
-    //     return $this->json($results);
-    // }
+    
 }

@@ -30,18 +30,18 @@
         <div class="ml-auto pr-2  order-sm-1 order-md-4">
         {% block header_navigation_links %}
 
-            {# {% if is_granted('ROLE_ADMIN') %} #}
-                <a href="#" class="nav-link">
+            {% if not app.user %}
+                <a href="login" class="nav-link">
                     {{ 'Login'|trans }} <i class="fas fa-sign-in-alt"></i> 
                 </a>
-            {# {% endif %} #}
+            {% endif %}
         {% endblock %}
 
-        {# {% if app.user %}
-            <a href="#" class="nav-link">
+        {% if app.user %}
+            <a href="logout" class="nav-link">
                  {{ 'Logout'|trans }} <i class="fas fa-sign-out-alt"></i>
             </a>
-        {% endif %} #}
+        {% endif %}
 
         </div>
 

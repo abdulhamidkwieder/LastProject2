@@ -24,6 +24,7 @@
     use Symfony\Component\Form\Extension\Core\Type\DateType;
     use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
     use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+    use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
     class PostController extends Controller
 
@@ -35,6 +36,7 @@
     {
         $posts = $this->getDoctrine()->getRepository('AppBundle:Post')->findAll();
         return $this->render('post/index.html.twig', array('posts'=>$posts));
+        
     }
 
 
@@ -49,13 +51,10 @@
         ->add('quantity', IntegerType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-botton:15px')))
         ->add('minPrice', IntegerType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
         ->add('maxPrice', IntegerType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
-        ->add('creationDate', DateTimeType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
         ->add('openingDate', DateType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
         ->add('closingDate', DateType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
         ->add('resultDate', DateType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
-        ->add('status', IntegerType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
-        ->add('fkUserId', IntegerType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
-        ->add('fkPostTypeId', ChoiceType::class, array('choices'=>array('Bidding'=>'3', 'Auction '=>'4'),'attr' => array('class'=> 'form-control', 'style'=>'margin-botton:15px')))
+        ->add('fkPostTypeId', ChoiceType::class, array('choices'=>array('Bidding'=>'1', 'Auction '=>'2'),'attr' => array('class'=> 'form-control', 'style'=>'margin-botton:15px')))
         ->add('save', SubmitType::class, array('label'=> 'Create Post', 'attr' => array('class'=> 'btn-primary', 'style'=>'margin-botton:15px')))
         ->getForm();
 
@@ -67,13 +66,12 @@
                 $quantity = $form['quantity']->getData();
                 $minPrice = $form['minPrice']->getData();
                 $maxPrice = $form['maxPrice']->getData();
-                $creationDate = $form['creationDate']->getData();
+                $creationDate = new \DateTime('now');
                 $openingDate = $form['openingDate']->getData();
                 $closingDate = $form['closingDate']->getData();
                 $resultDate = $form['resultDate']->getData();
-                $status = $form['status']->getData();
                 $fkPostTypeId = $form['fkPostTypeId']->getData();
-                $fkUserId = $form['fkUserId']->getData();
+                $fkUserId = $this->get('security.token_storage')->getToken()->getUser()->getId();
 
                 $post->setTitle($title);
                 $post->setDescription($description);
@@ -84,15 +82,15 @@
                 $post->setOpeningDate($openingDate);
                 $post->setClosingDate($closingDate);
                 $post->setResultDate($resultDate);
-                $post->setStatus($status);
+                $post->setStatus(1);
                 $post->setFkUserId($fkUserId);
                 $post->setFkPostTypeId($fkPostTypeId);
 
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($post);
                 $em->flush();
-                    $this->addFlash('notice','Post Added');
-                return $this->redirectToRoute('post_list');
+                    $this->addFlash('notice','Post Added!');
+                return $this->redirectToRoute('post_create');
         }
         // replace this example code with whatever you need
         return $this->render('post/create.html.twig', array('form' => $form->createView()));
@@ -113,7 +111,6 @@
             $PostFile->setClosingDate($PostFile->getClosingDate());
             $PostFile->setResultDate($PostFile->getResultDate());
             $PostFile->setStatus($PostFile->getStatus());
-            $PostFile->setFkUserId($PostFile->getFkUserId());
             $PostFile->setFkPostTypeId($PostFile->getFkPostTypeId());
             
         $form = $this->createFormBuilder($PostFile)
@@ -127,10 +124,7 @@
         ->add('closingDate', DateType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
         ->add('resultDate', DateType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
         ->add('status', IntegerType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
-        ->add('fkUserId', IntegerType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
-        ->add('fkPostTypeId', ChoiceType::class, array('choices'=>array('Bidding'=>'3', 'Auction '=>'4'),'attr' => array('class'=> 'form-control', 'style'=>'margin-botton:15px')))
-        ->add('save', SubmitType::class, array('label'=> 'Create Post', 'attr' => array('class'=> 'btn-primary', 'style'=>'margin-botton:15px')))
-        ->add('fkPostTypeId', IntegerType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
+        ->add('fkPostTypeId', ChoiceType::class, array('choices'=>array('Bidding'=>'1', 'Auction '=>'2'),'attr' => array('class'=> 'form-control', 'style'=>'margin-botton:15px')))
         ->add('save', SubmitType::class, array('label'=> 'Update Post', 'attr' => array('class'=> 'btn-primary', 'style'=>'margin-botton:15px')))
         ->getForm();
 
@@ -147,7 +141,6 @@
             $closingDate = $form['closingDate']->getData();
             $resultDate = $form['resultDate']->getData();
             $status = $form['status']->getData();
-            $fkUser = $form['fkUserId']->getData();
             $fkPostType = $form['fkPostTypeId']->getData();
 
             $em = $this->getDoctrine()->getManager();
@@ -163,7 +156,6 @@
             $PostFile->setClosingDate($closingDate);
             $PostFile->setResultDate($resultDate);
             $PostFile->setStatus($status);
-            $PostFile->setFkUserId($fkUser);
             $PostFile->setFkPostTypeId($fkPostType);
 
             $em->flush();
