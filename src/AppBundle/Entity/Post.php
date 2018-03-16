@@ -95,7 +95,7 @@ class Post
      * @ORM\Column(name="fk_post_type_id", type="integer", nullable=false)
      */
     private $fkPostTypeId;
-
+    
     /**
      * @var integer
      *

@@ -185,7 +185,10 @@
      * @Route("/post/details/{id}", name="post_details")
      */
     public function detailsAction($id){
+                $offers = new Offer;
                 $post = $this->getDoctrine()->getRepository('AppBundle:Post')->find($id);
-        return $this->render('post/details.html.twig', array('post' => $post));
+                $offers = $this->getDoctrine()->getRepository('AppBundle:Offer')->findByFkPostId($id);
+
+        return $this->render('post/details.html.twig', array('post' => $post, 'offers' => $offers));
     }
 }
