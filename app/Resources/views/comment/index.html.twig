@@ -11,7 +11,9 @@
         	{{comment.sublevel}}<br>
         	{{comment.fkpostid}}<br>
         	{{comment.date|date('F j, Y, g:i a')}}<br>
-        	<a href="/comment/createsubm">replay</a>
+        	<a href="/comment/createsub">Replay</a>
+            <a href="/comment/edit/{{comment.id}}">Edit</a>
+            <a href="/comment/delete/{{comment.id}}">Delete</a>
         	<hr>
     	{% endif %}
   	{% endfor %}
@@ -25,7 +27,9 @@
         	{{comment.sublevel}}<br>
         	{{comment.fkpostid}}<br>
         	{{comment.date|date('F j, Y, g:i a')}}<br>
-        	<a href="/comment/createsub">replay</a>
+        	<a href="/comment/createsub/{comment.id}">Replay</a>
+            <a href="/comment/edit/{{comment.id}}">Edit</a>
+            <a href="/comment/delete/{{comment.id}}">Delete</a>
     	{% endif %}
   	{% endfor %}
 </div>
@@ -39,7 +43,9 @@
         	{{comment.sublevel}}<br>
         	{{comment.fkpostid}}<br>
         	{{comment.date|date('F j, Y, g:i a')}}<br>
-        	<a href="/comment/createsub">replay</a>
+        	<a href="/comment/createsub/{comment.id}">Replay</a>
+            <a href="/comment/edit/{{comment.id}}">Edit</a>
+            <a href="/comment/delete/{{comment.id}}">Delete</a>
     	{% endif %}
   	{% endfor %}  
   </div>
