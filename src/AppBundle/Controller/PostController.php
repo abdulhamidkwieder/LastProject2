@@ -17,6 +17,7 @@
     use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
     use Symfony\Bundle\FrameworkBundle\Controller\Controller;
     use Symfony\Component\HttpFoundation\Request;
+    use Symfony\Component\HttpFoundation\Response;
     use Symfony\Component\Form\Extension\Core\Type\TextType;
     use Symfony\Component\Form\Extension\Core\Type\IntegerType;
     use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -24,6 +25,7 @@
     use Symfony\Component\Form\Extension\Core\Type\DateType;
     use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
     use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+    use Symfony\Component\HttpFoundation\JsonResponse;
     use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
     class PostController extends Controller
@@ -190,5 +192,33 @@
                 $offers = $this->getDoctrine()->getRepository('AppBundle:Offer')->findByFkPostId($id);
 
         return $this->render('post/details.html.twig', array('post' => $post, 'offers' => $offers));
+    }
+
+
+    /**
+     * @Route("/search", name="post_search")
+     * @Method("GET")
+     *
+     * @return Response|JsonResponse
+     */
+    public function searchAction(Request $request)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            return $this->render('post/search.html.twig');
+        }
+
+        $query = $request->query->get('q', '');
+        $posts = $this->getDoctrine()->getRepository(Post::class)->findBySearchQuery($query);
+
+        $results = [];
+        foreach ($posts as $post) {
+            $results[] = [
+                'title' => htmlspecialchars($post->getTitle()),
+                'description' => htmlspecialchars($post->getDescription()),
+                'url' => $this->generateUrl('post_details', ['slug' => $post->getSlug()]),
+            ];
+        }
+
+        return $this->json($results);
     }
 }

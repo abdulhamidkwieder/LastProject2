@@ -39,25 +39,31 @@
     }
 
     /**
-    * @Route("/comment/create/{postId}", name="comment_create")
+    * @Route("/comment/create", name="comment_create")
     */
-    public function createCommentAction($postId,Request $request){
+    public function createCommentAction(Request $request){
         $comment = new Comment;
 
 
         $form = $this->createFormBuilder($comment)
+            ->add('repliedcommentid', TextType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
+            ->add('date', DateTimeType::class, array('attr' => array('style'=>'margin-bottom:15px')))
             ->add('content', TextareaType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
+            ->add('fkpostid', TextType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
             ->add('save', SubmitType::class, array('label'=> 'Create Comment', 'attr' => array('class'=> 'btn-primary', 'style'=>'margin-bottom:15px')))
             ->getForm(); 
 
         $form->handleRequest($request);
             if($form->isSubmitted() && $form->isValid()){
                 //fetching data
-                $date = new \DateTime('now');
+                $repliedcommentid = $form['repliedcommentid']->getData();
+                $date = $form['date']->getData();
                 $content = $form['content']->getData();
+                $fkpostid = $form['fkpostid']->getData();
                 
                 $comment->setDate($date);
-                $comment->setFkPostId($postId);
+                $comment->setRepliedCommentId($repliedcommentid);
+                $comment->setFkPostId($fkpostid);
                 $comment->setContent($content);
                 $comment->setSublevel(0);
 
@@ -71,25 +77,30 @@
         return $this->render('comment/create.html.twig', array('form' => $form->createView()));
     }
     /**
-    * @Route("/comment/createsubm/{id}", name="comment_createsubm")
+    * @Route("/comment/createsubm", name="comment_createsubm")
     */
     public function createsubmCommentAction(Request $request){
         $comment = new Comment;
 
-
         $form = $this->createFormBuilder($comment)
+            ->add('repliedcommentid', TextType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
+            ->add('date', DateTimeType::class, array('attr' => array('style'=>'margin-bottom:15px')))
             ->add('content', TextareaType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
+            ->add('fkpostid', TextType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
             ->add('save', SubmitType::class, array('label'=> 'Create Comment', 'attr' => array('class'=> 'btn-primary', 'style'=>'margin-bottom:15px')))
             ->getForm(); 
 
         $form->handleRequest($request);
             if($form->isSubmitted() && $form->isValid()){
                 //fetching data
-                $date = new \DateTime('now');
+                $repliedcommentid = $form['repliedcommentid']->getData();
+                $date = $form['date']->getData();
                 $content = $form['content']->getData();
+                $fkpostid = $form['fkpostid']->getData();
                 
                 $comment->setDate($date);
-                $comment->setFkPostId($postId);
+                $comment->setRepliedCommentId($repliedcommentid);
+                $comment->setFkPostId($fkpostid);
                 $comment->setContent($content);
                 $comment->setSublevel(1);
 
@@ -104,25 +115,30 @@
     }
 
     /**
-    * @Route("/comment/createsub/{id}", name="comment_createsub")
+    * @Route("/comment/createsub", name="comment_createsub")
     */
     public function createsubCommentAction(Request $request){
         $comment = new Comment;
 
-
         $form = $this->createFormBuilder($comment)
+            ->add('repliedcommentid', TextType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
+            ->add('date', DateTimeType::class, array('attr' => array('style'=>'margin-bottom:15px')))
             ->add('content', TextareaType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
+            ->add('fkpostid', TextType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
             ->add('save', SubmitType::class, array('label'=> 'Create Comment', 'attr' => array('class'=> 'btn-primary', 'style'=>'margin-bottom:15px')))
             ->getForm(); 
 
         $form->handleRequest($request);
             if($form->isSubmitted() && $form->isValid()){
                 //fetching data
-                $date = new \DateTime('now');
+                $repliedcommentid = $form['repliedcommentid']->getData();
+                $date = $form['date']->getData();
                 $content = $form['content']->getData();
+                $fkpostid = $form['fkpostid']->getData();
                 
                 $comment->setDate($date);
-                $comment->setFkPostId($postId);
+                $comment->setRepliedCommentId($repliedcommentid);
+                $comment->setFkPostId($fkpostid);
                 $comment->setContent($content);
                 $comment->setSublevel(2);
 
@@ -134,39 +150,6 @@
         }
         // replace this example code with whatever you need
         return $this->render('comment/create.html.twig', array('form' => $form->createView()));
-    }
-
-    /**
-     * @Route("/comment/edit/{id}", name="comment_edit")
-     */
-    public function editAction( $id, Request $request){
-        $comment = $this->getDoctrine()->getRepository('AppBundle:Comment')->find($id);
-        $comment->setRepliedCommentId($comment->getRepliedCommentId());
-        $comment->setFkPostId($comment->getFkPostId());
-        $comment->setContent($comment->getContent());
-            
-        $form = $this->createFormBuilder($comment)
-            ->add('repliedcommentid', TextType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
-            ->add('content', TextareaType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
-            ->add('fkpostid', TextType::class, array('attr' => array('class'=> 'form-control', 'style'=>'margin-bottom:15px')))
-            ->add('save', SubmitType::class, array('label'=> 'Create Comment', 'attr' => array('class'=> 'btn-primary', 'style'=>'margin-bottom:15px')))
-            ->getForm(); 
-
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
-            //fetching data
-            $repliedcommentid = $form['repliedcommentid']->getData();
-            $date = new \DateTime('now');
-            $content = $form['content']->getData();
-            $fkpostid = $form['fkpostid']->getData();
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($comment);
-            $em->flush();
-                $this->addFlash('notice','comment Updated');
-            return $this->redirectToRoute('comment_show');
-        }
-        return $this->render('comment/edit.html.twig', array('form' => $form->createView()));
     }
 
 }
